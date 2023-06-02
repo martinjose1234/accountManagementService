@@ -14,7 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateAccountRequest {
 
-	@NotNull(message = AccountConstant.ACCOUNTID_MESSAGE)
 	@NotEmpty(message = AccountConstant.ACCOUNTID_MESSAGE)
 	private String accountId;
 

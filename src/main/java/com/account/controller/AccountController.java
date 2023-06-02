@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.account.constant.AccountConstant;
+import com.account.exception.AccountException;
 import com.account.model.request.AccountRequest;
 import com.account.model.request.UpdateAccountRequest;
 import com.account.model.response.AccountResponse;
@@ -64,6 +65,13 @@ public class AccountController {
 
 		try {
 			accountResponse = accountService.addAccount(accountRequest);
+
+		} catch (AccountException ex) {
+
+			errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ex.getMessage());
+			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		} catch (Exception ex) {
 
@@ -119,6 +127,13 @@ public class AccountController {
 
 			accountResponse = accountService.updateAccount(updateAccountRequest);
 
+		} catch (AccountException ex) {
+
+			errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ex.getMessage());
+			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
@@ -157,6 +172,13 @@ public class AccountController {
 			}
 
 			accountService.deleteAccount(deleteAccountId);
+
+		} catch (AccountException ex) {
+
+			errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ex.getMessage());
+			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
@@ -202,6 +224,13 @@ public class AccountController {
 
 			accountService.changeStatus(changeStatusAccountId, changeStatus);
 
+		} catch (AccountException ex) {
+
+			errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ex.getMessage());
+			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
@@ -230,6 +259,14 @@ public class AccountController {
 		PlaceCountResponse placeCountResponse;
 		try {
 			placeCountResponse = accountService.retrievePlaceCounts(country);
+			
+		} catch (AccountException ex) {
+
+			errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ex.getMessage());
+			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while retrieving place counts : " + ex);

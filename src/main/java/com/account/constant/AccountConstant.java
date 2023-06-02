@@ -44,6 +44,8 @@ public class AccountConstant {
 	 */
 
 	public static final String EMAIL_MESSAGE = "Please provide an email";
+	
+	public static final String EMAIL_ID_ALREADY_EXIST = "This email id is already existing.";
 
 	public static final String ACCOUNTID_MESSAGE = "Please provide an account Id";
 
@@ -66,5 +68,7 @@ public class AccountConstant {
 	public static final String POSTALCODE_MESSAGE = "Please provide PostalCode.";
 
 	public static final String AGE_MESSAGE = "Please provide age.";
+	
+	public static final String ACOUNT_NOTIN_ACTIVE = "Given account is not in Active state.";
 
 }

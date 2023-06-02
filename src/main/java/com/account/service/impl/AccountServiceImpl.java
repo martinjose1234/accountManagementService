@@ -1,6 +1,7 @@
 package com.account.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +73,9 @@ public class AccountServiceImpl implements AccountService {
 
 		logger.info("In AccountService to add an account.");
 
+		// Existing emailId validation
+		existingEmailValidation(accountRequest);
+
 		// Third party client call to get place details.
 		accountClient.postalServiceCall(accountRequest);
 
@@ -82,6 +86,16 @@ public class AccountServiceImpl implements AccountService {
 		AccountResponse accountResponse = accountMapperUtil.generateResponseFromEntity(accountEntityResponse);
 
 		return accountResponse;
+	}
+
+	private void existingEmailValidation(AccountRequest accountRequest) {
+		List<AccountEntity> allAccounts = accountRepository.findAll();
+		List<AccountEntity> exists = allAccounts.stream().filter(c -> c.getEmail().equals(accountRequest.getEmail()))
+				.collect(Collectors.toList());
+
+		if (null != exists && !exists.isEmpty()) {
+			throw new AccountException(AccountConstant.EMAIL_ID_ALREADY_EXIST);
+		}
 	}
 
 	/**
@@ -104,7 +118,7 @@ public class AccountServiceImpl implements AccountService {
 			throw new AccountException(AccountConstant.ACCOUNT_NOT_EXIST);
 		}
 		if (null != accounts.get(0) && !accounts.get(0).getStatus().equals("Active")) {
-			throw new AccountException("Given account is not in Active state.");
+			throw new AccountException(AccountConstant.ACOUNT_NOTIN_ACTIVE);
 		}
 
 		AccountEntity accountEntity = accounts.get(0);
