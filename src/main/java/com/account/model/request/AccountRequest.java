@@ -17,20 +17,16 @@ import lombok.Setter;
 public class AccountRequest {
 
 	@NotNull(message = AccountConstant.EMAIL_MESSAGE)
-	@NotEmpty(message = AccountConstant.EMAIL_MESSAGE)
-	@Email(regexp = AccountConstant.EMAIL_REGEX_EXPRESSION, message = AccountConstant.EMAIL_INVALID_MESSAGE)
+	@Email(regexp = AccountConstant.EMAIL_REGEX_EXPRESSION)
 	private String email;
 
-	@NotNull(message = AccountConstant.NAME_MESSAGE)
 	@NotEmpty(message = AccountConstant.NAME_MESSAGE)
 	private String name;
 
 	@NotNull(message = AccountConstant.COUNTRY_MESSAGE)
-	@NotEmpty(message = AccountConstant.COUNTRY_MESSAGE)
 	@Pattern(regexp = "(US|DE|ES|FR)")
 	private String country;
 
-	@NotNull(message = AccountConstant.POSTALCODE_MESSAGE)
 	@NotEmpty(message = AccountConstant.POSTALCODE_MESSAGE)
 	private String postalcode;
 
@@ -38,7 +34,6 @@ public class AccountRequest {
 	private Integer age;
 
 	@NotNull(message = AccountConstant.STATUS_MESSAGE)
-	@NotEmpty(message = AccountConstant.STATUS_MESSAGE)
 	@Pattern(regexp = "(Requested|Active|Inactive)")
 	private String status;
 

@@ -66,6 +66,7 @@ public class AccountController {
 			accountResponse = accountService.addAccount(accountRequest);
 
 		} catch (Exception ex) {
+
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Add Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -141,8 +142,8 @@ public class AccountController {
 	 * 
 	 */
 	@DeleteMapping(path = AccountConstant.DELETE_ACCOUNT, produces = AccountConstant.JSON_CONTENT_TYPE)
-	public ResponseEntity<Object> deleteAccount(@RequestParam String loginAccountId, @RequestParam String loginSecurePin,
-			@RequestParam String deleteAccountId) {
+	public ResponseEntity<Object> deleteAccount(@RequestParam String loginAccountId,
+			@RequestParam String loginSecurePin, @RequestParam String deleteAccountId) {
 
 		try {
 
@@ -169,8 +170,7 @@ public class AccountController {
 
 		return new ResponseEntity<>(successResponse, HttpStatus.OK);
 	}
-	
-	
+
 	/**
 	 * 
 	 * To change the status of an account
@@ -180,7 +180,7 @@ public class AccountController {
 	 * 
 	 * @param loginPin       logged user secure pin id.
 	 * 
-	 * @param changeStatus      the new status.
+	 * @param changeStatus   the new status.
 	 * 
 	 * @return successResponse
 	 * 
