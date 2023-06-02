@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.account.client.AccountClient;
 import com.account.constant.AccountConstant;
 import com.account.entity.AccountEntity;
-import com.account.exception.AccountException;
+import com.account.exception.AccountServiceException;
 import com.account.model.request.AccountRequest;
 import com.account.model.request.UpdateAccountRequest;
 import com.account.model.response.AccountResponse;
@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
 	 * 
 	 */
 	@Override
-	public boolean authenticateUser(String loginAccountId, String loginPin) throws AccountException, Exception {
+	public boolean authenticateUser(String loginAccountId, String loginPin) throws AccountServiceException, Exception {
 
 		boolean authStatus = true;
 
@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
 	 * 
 	 */
 	@Override
-	public AccountResponse addAccount(AccountRequest accountRequest) throws AccountException, Exception {
+	public AccountResponse addAccount(AccountRequest accountRequest) throws AccountServiceException, Exception {
 
 		logger.info("In AccountService to add an account.");
 
@@ -94,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
 				.collect(Collectors.toList());
 
 		if (null != exists && !exists.isEmpty()) {
-			throw new AccountException(AccountConstant.EMAIL_ID_ALREADY_EXIST);
+			throw new AccountServiceException(AccountConstant.EMAIL_ID_ALREADY_EXIST);
 		}
 	}
 
@@ -108,17 +108,17 @@ public class AccountServiceImpl implements AccountService {
 	 * 
 	 */
 	@Override
-	public AccountResponse updateAccount(UpdateAccountRequest updateAccountRequest) throws AccountException, Exception {
+	public AccountResponse updateAccount(UpdateAccountRequest updateAccountRequest) throws AccountServiceException, Exception {
 
 		logger.info("In AccountService to update an account.");
 
 		List<AccountEntity> accounts = accountRepository.findByAccountId(updateAccountRequest.getAccountId());
 
 		if (null == accounts || accounts.isEmpty()) {
-			throw new AccountException(AccountConstant.ACCOUNT_NOT_EXIST);
+			throw new AccountServiceException(AccountConstant.ACCOUNT_NOT_EXIST);
 		}
 		if (null != accounts.get(0) && !accounts.get(0).getStatus().equals("Active")) {
-			throw new AccountException(AccountConstant.ACOUNT_NOTIN_ACTIVE);
+			throw new AccountServiceException(AccountConstant.ACOUNT_NOTIN_ACTIVE);
 		}
 
 		AccountEntity accountEntity = accounts.get(0);
@@ -140,18 +140,18 @@ public class AccountServiceImpl implements AccountService {
 		if (null != updateAccountRequest.getCountry() && !updateAccountRequest.getCountry().isEmpty()) {
 
 			if (!updateAccountRequest.getCountry().matches(AccountConstant.COUNTRY_REGEX_EXPRESSION)) {
-				throw new AccountException("Not valid country.");
+				throw new AccountServiceException("Not valid country.");
 			}
 
 			if (null == updateAccountRequest.getPostalcode() || updateAccountRequest.getPostalcode().isEmpty()) {
-				throw new AccountException("Please give postal code also.");
+				throw new AccountServiceException("Please give postal code also.");
 			}
 
 			postalServiceForUpdate(updateAccountRequest, accountEntity);
 		}
 		if (null != updateAccountRequest.getEmail() && !updateAccountRequest.getEmail().isEmpty()) {
 			if (!updateAccountRequest.getEmail().matches(AccountConstant.EMAIL_REGEX_EXPRESSION)) {
-				throw new AccountException("Not valid email id.");
+				throw new AccountServiceException("Not valid email id.");
 			}
 			accountEntity.setEmail(updateAccountRequest.getEmail());
 		}
@@ -160,14 +160,14 @@ public class AccountServiceImpl implements AccountService {
 		}
 		if (null != updateAccountRequest.getStatus() && !updateAccountRequest.getStatus().isEmpty()) {
 			if (!updateAccountRequest.getStatus().matches(AccountConstant.STATUS_REGEX_EXPRESSION)) {
-				throw new AccountException("Not valid Status.");
+				throw new AccountServiceException("Not valid Status.");
 			}
 			accountEntity.setStatus(updateAccountRequest.getStatus());
 		}
 		if (null != updateAccountRequest.getPostalcode() && !updateAccountRequest.getPostalcode().isEmpty()) {
 
 			if (null == updateAccountRequest.getCountry() || updateAccountRequest.getCountry().isEmpty()) {
-				throw new AccountException("Please give country code also.");
+				throw new AccountServiceException("Please give country code also.");
 			}
 
 			postalServiceForUpdate(updateAccountRequest, accountEntity);
@@ -195,17 +195,17 @@ public class AccountServiceImpl implements AccountService {
 	 * 
 	 */
 	@Override
-	public void deleteAccount(String deleteAccountId) throws AccountException, Exception {
+	public void deleteAccount(String deleteAccountId) throws AccountServiceException, Exception {
 
 		logger.info("In AccountService to delete an account.");
 
 		List<AccountEntity> accounts = accountRepository.findByAccountId(deleteAccountId);
 
 		if (null == accounts || accounts.isEmpty()) {
-			throw new AccountException(AccountConstant.ACCOUNT_NOT_EXIST);
+			throw new AccountServiceException(AccountConstant.ACCOUNT_NOT_EXIST);
 		}
 		if (null != accounts.get(0) && !accounts.get(0).getStatus().equals("Inactive")) {
-			throw new AccountException("Given account is not in Inactive state.");
+			throw new AccountServiceException("Given account is not in Inactive state.");
 		}
 
 		accountRepository.delete(accounts.get(0));
@@ -218,17 +218,17 @@ public class AccountServiceImpl implements AccountService {
 	 * 
 	 */
 	@Override
-	public void changeStatus(String changeStatusAccountId, String changeStatus) throws AccountException, Exception {
+	public void changeStatus(String changeStatusAccountId, String changeStatus) throws AccountServiceException, Exception {
 
 		logger.info("In AccountService to change account status.");
 
 		List<AccountEntity> accounts = accountRepository.findByAccountId(changeStatusAccountId);
 
 		if (null == accounts || accounts.isEmpty()) {
-			throw new AccountException(AccountConstant.ACCOUNT_NOT_EXIST);
+			throw new AccountServiceException(AccountConstant.ACCOUNT_NOT_EXIST);
 		}
 		if (!changeStatus.matches(AccountConstant.STATUS_REGEX_EXPRESSION)) {
-			throw new AccountException("Not valid Status.");
+			throw new AccountServiceException("Not valid Status.");
 		}
 
 		accounts.get(0).setStatus(changeStatus);

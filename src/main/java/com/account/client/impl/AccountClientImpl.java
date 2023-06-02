@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.account.client.AccountClient;
 import com.account.constant.AccountConstant;
-import com.account.exception.AccountException;
+import com.account.exception.AccountServiceException;
 import com.account.model.client.PostalClientServiceResponse;
 import com.account.model.request.AccountRequest;
 import com.google.gson.Gson;
@@ -18,7 +18,7 @@ public class AccountClientImpl implements AccountClient {
 
 	Logger logger = LoggerFactory.getLogger(AccountClientImpl.class);
 
-	public void postalServiceCall(AccountRequest accountRequest) throws AccountException, Exception {
+	public void postalServiceCall(AccountRequest accountRequest) throws AccountServiceException, Exception {
 		RestTemplate restTemplate = new RestTemplate();
 		Gson gson = new Gson();
 
@@ -33,7 +33,7 @@ public class AccountClientImpl implements AccountClient {
 			postalJsonString = restTemplate.getForObject(uri.toString(), String.class);
 		} catch (Exception ex) {
 			logger.error("Error while accessing Postal service : " + ex);
-			throw new AccountException(AccountConstant.WRONG_RESPONSE_FROM_POSTAL_SERVICE + uri.toString());
+			throw new AccountServiceException(AccountConstant.WRONG_RESPONSE_FROM_POSTAL_SERVICE + uri.toString());
 		}
 
 		postalJsonString = postalJsonString.replaceAll(" ", "");
@@ -43,14 +43,14 @@ public class AccountClientImpl implements AccountClient {
 			postalClientServiceResponse = gson.fromJson(postalJsonString, PostalClientServiceResponse.class);
 		} catch (JsonParseException ex) {
 			logger.error("Error while parsing postal service response : " + ex);
-			throw new AccountException(AccountConstant.WRONG_RESPONSE_FROM_POSTAL_SERVICE + uri.toString());
+			throw new AccountServiceException(AccountConstant.WRONG_RESPONSE_FROM_POSTAL_SERVICE + uri.toString());
 		}
 
 		if (postalClientServiceResponse == null || postalClientServiceResponse.getPlaces() == null
 				|| postalClientServiceResponse.getPlaces().size() == 0
 				|| postalClientServiceResponse.getPlaces().get(0) == null) {
 			logger.error("Getting wrong response from postal service.");
-			throw new AccountException(AccountConstant.WRONG_RESPONSE_FROM_POSTAL_SERVICE + uri.toString());
+			throw new AccountServiceException(AccountConstant.WRONG_RESPONSE_FROM_POSTAL_SERVICE + uri.toString());
 		}
 		accountRequest.setLatitude(postalClientServiceResponse.getPlaces().get(0).getLatitude());
 		accountRequest.setLongitude(postalClientServiceResponse.getPlaces().get(0).getLongitude());

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.account.constant.AccountConstant;
-import com.account.exception.AccountException;
+import com.account.exception.AccountServiceException;
 import com.account.model.request.AccountRequest;
 import com.account.model.request.UpdateAccountRequest;
 import com.account.model.response.AccountResponse;
@@ -60,25 +60,25 @@ public class AccountController {
 					.map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
 					.collect(Collectors.joining("; "));
 			errorResponse.setMessage(message);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 
 		try {
 			accountResponse = accountService.addAccount(accountRequest);
 
-		} catch (AccountException ex) {
+		} catch (AccountServiceException ex) {
 
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
 
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Add Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 
 		return new ResponseEntity<>(accountResponse, HttpStatus.OK);
@@ -111,7 +111,7 @@ public class AccountController {
 					.map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
 					.collect(Collectors.joining("; "));
 			errorResponse.setMessage(message);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 
 		try {
@@ -122,23 +122,23 @@ public class AccountController {
 				errorResponse = new ErrorResponse();
 				errorResponse.setMessage("Authentication failed. ");
 				errorResponse.setErrorCode(HttpStatus.UNAUTHORIZED.value());
-				return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 			}
 
 			accountResponse = accountService.updateAccount(updateAccountRequest);
 
-		} catch (AccountException ex) {
+		} catch (AccountServiceException ex) {
 
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 
 		return new ResponseEntity<>(accountResponse, HttpStatus.OK);
@@ -168,23 +168,23 @@ public class AccountController {
 				errorResponse = new ErrorResponse();
 				errorResponse.setMessage("Authentication failed. ");
 				errorResponse.setErrorCode(HttpStatus.UNAUTHORIZED.value());
-				return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 			}
 
 			accountService.deleteAccount(deleteAccountId);
 
-		} catch (AccountException ex) {
+		} catch (AccountServiceException ex) {
 
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 
 		SuccessResponse successResponse = new SuccessResponse();
@@ -219,23 +219,23 @@ public class AccountController {
 				errorResponse = new ErrorResponse();
 				errorResponse.setMessage("Authentication failed. ");
 				errorResponse.setErrorCode(HttpStatus.UNAUTHORIZED.value());
-				return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 			}
 
 			accountService.changeStatus(changeStatusAccountId, changeStatus);
 
-		} catch (AccountException ex) {
+		} catch (AccountServiceException ex) {
 
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 
 		SuccessResponse successResponse = new SuccessResponse();
@@ -260,18 +260,18 @@ public class AccountController {
 		try {
 			placeCountResponse = accountService.retrievePlaceCounts(country);
 			
-		} catch (AccountException ex) {
+		} catch (AccountServiceException ex) {
 
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while retrieving place counts : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(placeCountResponse, HttpStatus.OK);
 	}

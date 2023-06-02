@@ -1,6 +1,6 @@
 package com.account.exception;
 
-public class AccountException extends RuntimeException {
+public class AccountServiceException extends RuntimeException {
 
 	/**
 	 * serialVersionUID
@@ -9,12 +9,12 @@ public class AccountException extends RuntimeException {
 
 	private String message;
 
-	public AccountException(String message) {
+	public AccountServiceException(String message) {
 
 		super(message);
 	}
 
-	public AccountException() {
+	public AccountServiceException() {
 
 		super();
 	}

@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.account.client.AccountClient;
 import com.account.entity.AccountEntity;
-import com.account.exception.AccountException;
+import com.account.exception.AccountServiceException;
 import com.account.model.request.AccountRequest;
 import com.account.model.request.UpdateAccountRequest;
 import com.account.model.response.AccountResponse;
@@ -46,7 +46,7 @@ public class AccountServiceImplTest {
 	UtilTest utilTest = new UtilTest();
 
 	@Test
-	void authenticateUserTest() throws AccountException, Exception {
+	void authenticateUserTest() throws AccountServiceException, Exception {
 
 		List<AccountEntity> accounts = utilTest.generateAccountEntityList();
 
@@ -59,7 +59,7 @@ public class AccountServiceImplTest {
 	}
 
 	@Test
-	void addAccountTest() throws AccountException, Exception {
+	void addAccountTest() throws AccountServiceException, Exception {
 
 		List<AccountEntity> accounts = utilTest.generateAccountEntityList();
 		AccountRequest accountRequest = utilTest.generateAccountRequest();
@@ -83,7 +83,7 @@ public class AccountServiceImplTest {
 	}
 
 	@Test
-	void updateAccountTest() throws AccountException, Exception {
+	void updateAccountTest() throws AccountServiceException, Exception {
 
 		List<AccountEntity> accounts = utilTest.generateAccountEntityList();
 		UpdateAccountRequest updateAccountRequest = utilTest.generateUpdateAccountRequest();
@@ -108,7 +108,7 @@ public class AccountServiceImplTest {
 	}
 
 	@Test
-	void deleteAccountTest() throws AccountException, Exception {
+	void deleteAccountTest() throws AccountServiceException, Exception {
 
 		List<AccountEntity> accounts = utilTest.generateAccountEntityList();
 		UpdateAccountRequest updateAccountRequest = utilTest.generateUpdateAccountRequest();
@@ -130,7 +130,7 @@ public class AccountServiceImplTest {
 	}
 
 	@Test
-	void changeStatusTest() throws AccountException, Exception {
+	void changeStatusTest() throws AccountServiceException, Exception {
 
 		List<AccountEntity> accounts = utilTest.generateAccountEntityList();
 		AccountResponse expectedAccountResponse = utilTest.generateAccountResponse();
@@ -151,7 +151,7 @@ public class AccountServiceImplTest {
 	}
 
 	@Test
-	void retrievePlaceCountsTest() throws AccountException, Exception {
+	void retrievePlaceCountsTest() throws AccountServiceException, Exception {
 
 		List<AccountEntity> accounts = utilTest.generateAccountEntityList();
 
