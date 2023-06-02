@@ -92,7 +92,7 @@ public class AccountController {
 	 */
 	@PutMapping(path = AccountConstant.UPDATE_ACCOUNT, consumes = AccountConstant.JSON_CONTENT_TYPE, produces = AccountConstant.JSON_CONTENT_TYPE)
 	public ResponseEntity<Object> updateAccount(@RequestBody @Valid UpdateAccountRequest updateAccountRequest,
-			BindingResult result, @RequestParam String loginAccountId, @RequestParam String loginPin) {
+			BindingResult result, @RequestParam String loginAccountId, @RequestParam String loginSecurePin) {
 
 		// validating request by SpringBoot validator @Valid.
 		if (result.hasErrors()) {
@@ -108,7 +108,7 @@ public class AccountController {
 		try {
 
 			// Authenticate user.
-			boolean authentication = accountService.authenticateUser(loginAccountId, loginPin);
+			boolean authentication = accountService.authenticateUser(loginAccountId, loginSecurePin);
 			if (!authentication) {
 				errorResponse = new ErrorResponse();
 				errorResponse.setMessage("Authentication failed. ");
@@ -141,13 +141,13 @@ public class AccountController {
 	 * 
 	 */
 	@DeleteMapping(path = AccountConstant.DELETE_ACCOUNT, produces = AccountConstant.JSON_CONTENT_TYPE)
-	public ResponseEntity<Object> deleteAccount(@RequestParam String loginAccountId, @RequestParam String loginPin,
+	public ResponseEntity<Object> deleteAccount(@RequestParam String loginAccountId, @RequestParam String loginSecurePin,
 			@RequestParam String deleteAccountId) {
 
 		try {
 
 			// Authenticate user.
-			boolean authentication = accountService.authenticateUser(loginAccountId, loginPin);
+			boolean authentication = accountService.authenticateUser(loginAccountId, loginSecurePin);
 			if (!authentication) {
 				errorResponse = new ErrorResponse();
 				errorResponse.setMessage("Authentication failed. ");
@@ -186,13 +186,13 @@ public class AccountController {
 	 * 
 	 */
 	@PutMapping(path = AccountConstant.CHANGE_STATUS, produces = AccountConstant.JSON_CONTENT_TYPE)
-	public ResponseEntity<Object> changeStatus(@RequestParam String loginAccountId, @RequestParam String loginPin,
+	public ResponseEntity<Object> changeStatus(@RequestParam String loginAccountId, @RequestParam String loginSecurePin,
 			@RequestParam String changeStatusAccountId, @RequestParam String changeStatus) {
 
 		try {
 
 			// Authenticate user.
-			boolean authentication = accountService.authenticateUser(loginAccountId, loginPin);
+			boolean authentication = accountService.authenticateUser(loginAccountId, loginSecurePin);
 			if (!authentication) {
 				errorResponse = new ErrorResponse();
 				errorResponse.setMessage("Authentication failed. ");
