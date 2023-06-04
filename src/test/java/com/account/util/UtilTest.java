@@ -17,7 +17,6 @@ public class UtilTest {
 		accountRequest.setAge(22);
 		accountRequest.setCountry("US");
 		accountRequest.setEmail("John@gmail.com");
-		accountRequest.setEmail("john@gmail.com");
 		accountRequest.setLatitude("34.209");
 		accountRequest.setLongitude("-91.9859");
 		accountRequest.setName("John");
