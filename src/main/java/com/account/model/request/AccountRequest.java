@@ -11,6 +11,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+
+/**
+ * NOTE 1 : To use @Getter and @Setter u need to use Lombok. 1. add dependency for Lombok into ur project. 2. Install Lombok into ur STS. <https://codippa.com/lombok/installing-lombok/>
+ *
+ *
+ *
+ */
+
+
 @Getter
 @Setter
 @NoArgsConstructor
