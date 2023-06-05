@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -105,7 +106,8 @@ public class AccountController {
 	 */
 	@PutMapping(path = AccountConstant.UPDATE_ACCOUNT, consumes = AccountConstant.JSON_CONTENT_TYPE, produces = AccountConstant.JSON_CONTENT_TYPE)
 	public ResponseEntity<Object> updateAccount(@RequestBody @Valid UpdateAccountRequest updateAccountRequest,
-			BindingResult result, @RequestParam String loginAccountId, @RequestParam String loginSecurePin) {
+			BindingResult result, @RequestHeader("loginAccountId") String loginAccountId,
+			@RequestHeader("loginSecurePin") String loginSecurePin) {
 
 		// validating request by SpringBoot validator @Valid.
 		if (result.hasErrors()) {
@@ -162,8 +164,8 @@ public class AccountController {
 	 * 
 	 */
 	@DeleteMapping(path = AccountConstant.DELETE_ACCOUNT, produces = AccountConstant.JSON_CONTENT_TYPE)
-	public ResponseEntity<Object> deleteAccount(@RequestParam String loginAccountId,
-			@RequestParam String loginSecurePin, @RequestParam String deleteAccountId) {
+	public ResponseEntity<Object> deleteAccount(@RequestHeader("loginAccountId") String loginAccountId,
+			@RequestHeader("loginSecurePin") String loginSecurePin, @RequestParam String deleteAccountId) {
 
 		try {
 
@@ -214,8 +216,9 @@ public class AccountController {
 	 * 
 	 */
 	@PutMapping(path = AccountConstant.CHANGE_STATUS, produces = AccountConstant.JSON_CONTENT_TYPE)
-	public ResponseEntity<Object> changeStatus(@RequestParam String loginAccountId, @RequestParam String loginSecurePin,
-			@RequestParam String changeStatusAccountId, @RequestParam String changeStatus) {
+	public ResponseEntity<Object> changeStatus(@RequestHeader("loginAccountId") String loginAccountId,
+			@RequestHeader("loginSecurePin") String loginSecurePin, @RequestParam String changeStatusAccountId,
+			@RequestParam String changeStatus) {
 
 		try {
 

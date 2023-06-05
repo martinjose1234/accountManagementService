@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class AccountControllerTest {
 	@Mock
 	AccountService accountService;
 
+	@Mock
+	Logger logger;
+
 	@InjectMocks
 	AccountController accountController;
 
@@ -35,6 +39,9 @@ public class AccountControllerTest {
 
 	@Test
 	void addAccountTest() throws AccountServiceException, Exception {
+
+		// Mock Logger.info
+		doNothing().when(logger).info(any(String.class));
 
 		AccountRequest accountRequest = utilTest.generateAccountRequest();
 		AccountResponse accountResponse = utilTest.generateAccountResponse();
@@ -52,6 +59,9 @@ public class AccountControllerTest {
 
 	@Test
 	void updateAccountTest() throws AccountServiceException, Exception {
+
+		// Mock Logger.info
+		doNothing().when(logger).info(any(String.class));
 
 		AccountResponse accountResponse = utilTest.generateAccountResponse();
 		UpdateAccountRequest updateAccountRequest = utilTest.generateUpdateAccountRequest();
@@ -71,6 +81,9 @@ public class AccountControllerTest {
 
 	@Test
 	void deleteAccountTest() throws AccountServiceException, Exception {
+
+		// Mock Logger.info
+		doNothing().when(logger).info(any(String.class));
 
 		BindingResult result = mock(BindingResult.class);
 		when(result.hasErrors()).thenReturn(false);
@@ -95,6 +108,9 @@ public class AccountControllerTest {
 
 	@Test
 	void changeStatusTest() throws AccountServiceException, Exception {
+
+		// Mock Logger.info
+		doNothing().when(logger).info(any(String.class));
 
 		BindingResult result = mock(BindingResult.class);
 		when(result.hasErrors()).thenReturn(false);
