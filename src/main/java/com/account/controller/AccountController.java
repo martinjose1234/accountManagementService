@@ -4,6 +4,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,8 @@ import com.account.service.AccountService;
 @RestController
 @RequestMapping(path = AccountConstant.BASE_PATH)
 public class AccountController {
+
+	Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	AccountService accountService;
@@ -67,14 +71,14 @@ public class AccountController {
 			accountResponse = accountService.addAccount(accountRequest);
 
 		} catch (AccountServiceException ex) {
-
+			logger.error("AccountServiceException in addAccount api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
-
+			logger.error("Exception in addAccount api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Add Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -128,13 +132,14 @@ public class AccountController {
 			accountResponse = accountService.updateAccount(updateAccountRequest);
 
 		} catch (AccountServiceException ex) {
-
+			logger.error("AccountServiceException in updateAccount api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
+			logger.error("Exception in updateAccount api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -174,13 +179,14 @@ public class AccountController {
 			accountService.deleteAccount(deleteAccountId);
 
 		} catch (AccountServiceException ex) {
-
+			logger.error("AccountServiceException in deleteAccount api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
+			logger.error("Exception in deleteAccount api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -225,13 +231,14 @@ public class AccountController {
 			accountService.changeStatus(changeStatusAccountId, changeStatus);
 
 		} catch (AccountServiceException ex) {
-
+			logger.error("AccountServiceException in changeStatus api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
+			logger.error("Exception in changeStatus api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while processing Update Account : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -259,15 +266,16 @@ public class AccountController {
 		PlaceCountResponse placeCountResponse;
 		try {
 			placeCountResponse = accountService.retrievePlaceCounts(country);
-			
-		} catch (AccountServiceException ex) {
 
+		} catch (AccountServiceException ex) {
+			logger.error("AccountServiceException in retrievePlaceCounts api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage(ex.getMessage());
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			return new ResponseEntity<>(errorResponse, HttpStatus.OK);
 
 		} catch (Exception ex) {
+			logger.error("Exception in retrievePlaceCounts api." + ex.getMessage());
 			errorResponse = new ErrorResponse();
 			errorResponse.setMessage("Exception occured while retrieving place counts : " + ex);
 			errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
