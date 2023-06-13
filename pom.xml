@@ -54,10 +54,12 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
-		    <version>2.10.1</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
 		</dependency>
+
+
 
 	</dependencies>
 
@@ -66,7 +68,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				
+
 				<configuration>
 					<excludes>
 						<exclude>
@@ -75,7 +77,7 @@
 						</exclude>
 					</excludes>
 				</configuration>
-				
+
 			</plugin>
 		</plugins>
 	</build>
